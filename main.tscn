@@ -1,0 +1,103 @@
+[gd_scene load_steps=11 format=3 uid="uid://dq2eh3etic35h"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_c7g5c"]
+[ext_resource type="Script" path="res://rigid_body_player.gd" id="2_rw7nj"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0ypl5"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ehwnv"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_6eef3"]
+friction = 0.0
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_f1334"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ng1dx"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_0jbbv"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_jvnmm"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_duiwn"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+size = Vector3(200, 1, 200)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.258819, -0.965926, 0, 0.965926, 0.258819, 0, 0, 9)
+use_collision = true
+collision_layer = 5
+collision_mask = 5
+size = Vector3(20, 8, 1)
+
+[node name="Player" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.06304, 1.08315, 0)
+collision_mask = 5
+platform_floor_layers = 4
+script = ExtResource("1_c7g5c")
+
+[node name="Camera3D" type="Camera3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 0.436409, 0.899748, 0, -0.899748, 0.436409, 0, 11.6708, 2.33613)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+shape = SubResource("CapsuleShape3D_0ypl5")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player"]
+mesh = SubResource("CapsuleMesh_ehwnv")
+
+[node name="Label3D" type="Label3D" parent="Player"]
+billboard = 1
+no_depth_test = true
+text = "CHARACTER BODY"
+
+[node name="Player2" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.35787, 1.08315, 0)
+collision_mask = 3
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+physics_material_override = SubResource("PhysicsMaterial_6eef3")
+max_contacts_reported = 1
+contact_monitor = true
+script = ExtResource("2_rw7nj")
+
+[node name="Camera3D" type="Camera3D" parent="Player2"]
+transform = Transform3D(1, 0, 0, 0, 0.436409, 0.899748, 0, -0.899748, 0.436409, 0, 9.10704, 2.33613)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player2"]
+shape = SubResource("CapsuleShape3D_0ypl5")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player2"]
+mesh = SubResource("CapsuleMesh_ehwnv")
+
+[node name="Label3D" type="Label3D" parent="Player2"]
+billboard = 1
+no_depth_test = true
+text = "RIGID BODY"
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.917568, 0.39758, 0, -0.39758, -0.917568, 0, 0, 0)
+shadow_enabled = true
+
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.72978, 0)
+collision_layer = 2
+collision_mask = 3
+physics_material_override = SubResource("PhysicsMaterial_f1334")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+shape = SubResource("BoxShape3D_ng1dx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D"]
+mesh = SubResource("BoxMesh_0jbbv")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_layer = 5
+collision_mask = 5
+physics_material_override = SubResource("PhysicsMaterial_jvnmm")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("WorldBoundaryShape3D_duiwn")
